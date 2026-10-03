@@ -1,0 +1,417 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiet Corner</title>
+
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    body {
+        overflow: hidden;
+        font-family:
+        -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+        color: #17202b;
+        background:
+        radial-gradient( circle at 20% 20%, #c7d9ff, transparent 35%
+        ), radial-gradient( circle at 80% 70%, #e4c8ff, transparent 35%
+        ), linear-gradient( 135deg, #eef3f8, #dce4ee
+        );
+    }/* =========================
+           BACKGROUND
+           ========================= */
+
+    .background {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(50px);
+        opacity: 0.65;
+        mix-blend-mode: normal;
+        will-change: transform;
+    }
+
+    .blob.one {
+        width: 420px;
+        height: 420px;
+        left: -100px;
+        top: -100px;
+        background: #9dbbff;
+        animation:
+        driftOne
+        18s
+        ease-in-out
+        infinite
+        alternate;
+    }
+
+    .blob.two {
+        width: 500px;
+        height: 500px;
+        right: -160px;
+        top: 15%;
+        background: #d7a7ff;
+        animation:
+        driftTwo
+        22s
+        ease-in-out
+        infinite
+        alternate;
+    }
+
+    .blob.three {
+        width: 360px;
+        height: 360px;
+        bottom: -100px;
+        left: 25%;
+        background: #a8e5dc;
+        animation:
+        driftThree
+        20s
+        ease-in-out
+        infinite
+        alternate;
+    }
+
+    .blob.four {
+        width: 280px;
+        height: 280px;
+        right: 25%;
+        bottom: 5%;
+        background: #ffd6a3;
+        opacity: 0.45;
+        animation:
+        driftFour
+        16s
+        ease-in-out
+        infinite
+        alternate;
+    }
+
+    @keyframes driftOne {
+        from {
+            transform:
+            translate(0, 0)
+            scale(1);
+        }
+
+        to {
+            transform:
+            translate(140px, 100px)
+            scale(1.15);
+        }
+    }
+
+    @keyframes driftTwo {
+        from {
+            transform:
+            translate(0, 0)
+            scale(1);
+        }
+
+        to {
+            transform:
+            translate(-120px, 80px)
+            scale(0.9);
+        }
+    }
+
+    @keyframes driftThree {
+        from {
+            transform:
+            translate(0, 0)
+            scale(1);
+        }
+
+        to {
+            transform:
+            translate(100px, -80px)
+            scale(1.1);
+        }
+    }
+
+    @keyframes driftFour {
+        from {
+            transform:
+            translate(0, 0)
+            scale(1);
+        }
+
+        to {
+            transform:
+            translate(-80px, -100px)
+            scale(1.2);
+        }
+    }/* =========================
+           SUBTLE GRAIN
+           ========================= */
+
+    .grain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.035;
+        background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.8'/%3E%3C/svg%3E");
+    }/* =========================
+           PAGE
+           ========================= */
+
+    .page {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+    }/* =========================
+           LIQUID GLASS
+           ========================= */
+
+    .glass {
+        position: relative;
+        width: min(760px, 100%);
+        min-height: 420px;
+        padding: 72px 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        /*
+                Clear glass rather than frosted glass.
+                The background is intentionally very transparent.
+              */
+        background:
+        linear-gradient( 135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.07) 45%, rgba(255, 255, 255, 0.16) 100%
+        );
+        backdrop-filter:
+        blur(18px)
+        saturate(180%)
+        contrast(105%);
+        -webkit-backdrop-filter:
+        blur(18px)
+        saturate(180%)
+        contrast(105%);
+        /*
+                Bright physical-looking glass edge.
+              */
+        border:
+        1px solid
+        rgba(255, 255, 255, 0.72);
+        border-radius: 36px;
+        box-shadow:
+        /* Outer shadow */
+        0 40px 100px
+        rgba(25, 35, 55, 0.18), /* Bright outer edge */
+        0 0 0 1px
+        rgba(255, 255, 255, 0.18), /* Top internal reflection */
+        inset 0 1px 2px
+        rgba(255, 255, 255, 0.95), /* Bottom internal edge */
+        inset 0 -1px 2px
+        rgba(255, 255, 255, 0.18), /* Very subtle internal depth */
+        inset 20px 20px 60px
+        rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+    }/*
+          Large diagonal reflection that slowly
+          travels across the glass.
+        */
+
+    .glass::before {
+        content: "";
+        position: absolute;
+        inset: -100%;
+        pointer-events: none;
+        background:
+        linear-gradient( 115deg, transparent 35%, rgba(255, 255, 255, 0.02) 42%, rgba(255, 255, 255, 0.42) 49%, rgba(255, 255, 255, 0.08) 53%, transparent 62%
+        );
+        transform:
+        translateX(-20%);
+        animation:
+        glassReflection
+        9s
+        ease-in-out
+        infinite;
+    }/*
+          Soft light caught inside the glass.
+        */
+
+    .glass::after {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 220px;
+        top: -180px;
+        left: 8%;
+        border-radius: 50%;
+        background:
+        radial-gradient( ellipse, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.12) 45%, transparent 70%
+        );
+        filter: blur(25px);
+        transform:
+        rotate(-12deg);
+        pointer-events: none;
+    }
+
+    @keyframes glassReflection {
+        0%, 55% {
+            transform:
+            translateX(-35%);
+            opacity: 0;
+        }
+
+        65% {
+            opacity: 0.7;
+        }
+
+        85%, 100% {
+            transform:
+            translateX(35%);
+            opacity: 0;
+        }
+    }/* =========================
+           CONTENT
+           ========================= */
+
+    .content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .eyebrow {
+        margin-bottom: 22px;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color:
+        rgba(23, 32, 43, 0.52);
+    }
+
+    h1 {
+        margin: 0;
+        max-width: 620px;
+        font-size:
+        clamp(42px, 7vw, 76px);
+        line-height: 0.98;
+        font-weight: 500;
+        letter-spacing: -0.055em;
+        color:
+        rgba(20, 28, 38, 0.88);
+    }
+
+    .subtitle {
+        max-width: 470px;
+        margin:
+        28px
+        auto
+        0;
+        font-size: 17px;
+        line-height: 1.65;
+        color:
+        rgba(23, 32, 43, 0.58);
+    }
+
+    .dot {
+        width: 7px;
+        height: 7px;
+        margin:
+        32px
+        auto
+        0;
+        border-radius: 50%;
+        background:
+        rgba(23, 32, 43, 0.38);
+        box-shadow:
+        0 0 18px
+        rgba(23, 32, 43, 0.2);
+    }/* =========================
+           MOBILE
+           ========================= */
+
+    @media (max-width: 600px) {
+        .glass {
+            min-height: 440px;
+            padding:
+            48px
+            28px;
+            border-radius: 28px;
+        }
+
+        h1 {
+            font-size: 46px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+        }
+    }/* =========================
+           REDUCED MOTION
+           ========================= */
+
+    @media (prefers-reduced-motion: reduce) {
+        .blob, .glass::before {
+            animation: none;
+        }
+    }
+    </style>
+</head>
+
+<body>
+
+    <div class="background">
+
+        <div class="blob one"></div>
+        <div class="blob two"></div>
+        <div class="blob three"></div>
+        <div class="blob four"></div>
+
+    </div>
+
+    <div class="grain"></div>
+
+    <main class="page">
+
+        <section class="glass">
+
+            <div class="content">
+
+                <div class="eyebrow">a9xq.githib.io/testing</div>
+
+                <h1>
+
+                              Quiet corner
+                    <br>
+
+                              of the internet.
+                            
+                </h1>
+
+                <p class="subtitle">Lander page - nothing to see here. &nbsp; &nbsp; &nbsp; &nbsp;</p>
+
+                <div class="dot"></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
